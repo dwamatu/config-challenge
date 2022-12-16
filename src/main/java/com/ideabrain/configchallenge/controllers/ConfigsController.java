@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @AllArgsConstructor
@@ -34,12 +35,20 @@ public class ConfigsController {
 
     @PutMapping("/configs/{name}")
     public Request updateByConfigName(@PathVariable String name, @RequestBody Request request) {
-        return configsService.updateByConfigName(name, request  );
+        return configsService.updateByConfigName(name, request);
     }
 
     @DeleteMapping("/configs/{name}")
     public void deleteByConfigName(@PathVariable String name) {
         configsService.deleteByConfigName(name);
+    }
+
+    //TODO Add Implementation for Query Data
+    @GetMapping("/search")
+    public Request queryParamImplemenation(@RequestParam(required = false) Map<String, String> queryParams) {
+
+        return configsService.performAdvancedQuery(queryParams);
+
     }
 
 }

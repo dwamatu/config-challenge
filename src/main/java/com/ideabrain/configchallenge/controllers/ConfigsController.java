@@ -33,8 +33,8 @@ public class ConfigsController {
 
 
     @PutMapping("/configs/{name}")
-    public Configs updateByConfigName(@PathVariable String name, @RequestBody Configs configs) {
-        return configsService.updateByConfigName(name, configs);
+    public Request updateByConfigName(@PathVariable String name, @RequestBody Request request) {
+        return configsService.updateByConfigName(name, request  );
     }
 
     @DeleteMapping("/configs/{name}")

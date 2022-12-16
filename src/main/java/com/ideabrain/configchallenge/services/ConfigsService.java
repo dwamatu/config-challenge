@@ -28,7 +28,6 @@ public class ConfigsService {
             return utilities.mapConfigToRequest(x, y);
         }).collect(Collectors.toList());
 
-
         return requests;
     }
 
@@ -55,8 +54,19 @@ public class ConfigsService {
         configsRepository.deleteByNameEquals(name);
     }
 
-    public Configs updateByConfigName(String name, Configs configs) {
-        return configsRepository.save(configs);
+    //TODO FIX UPDATE BY CONFIG NAME
+
+    public Request updateByConfigName(String name, Request request) {
+        Configs c = configsRepository.findByName(name);
+
+        c.setName(request.getName());
+        c.setMonitoringEnabled(request.getMetadata().getMonitoring().isEnabled());
+        c.setCpuEnabled(request.getMetadata().getLimits().getCpu().isEnabled());
+        c.setCpuValue(request.getMetadata().getLimits().getCpu().getValue());
+        // Save
+        configsRepository.save(c);
+
+        return request;
     }
 
 

@@ -44,6 +44,9 @@ public class ConfigsService {
         return request;
     }
 
+    //TODO FIX UPDATE BY CONFIG NAME - WHERE RECORD IS NOT FOUND
+
+
     public Request fetchConfigByName(String name) {
         Configs c = configsRepository.findByName(name);
         Request request = new Request();
@@ -54,9 +57,10 @@ public class ConfigsService {
         configsRepository.deleteByNameEquals(name);
     }
 
-    //TODO FIX UPDATE BY CONFIG NAME
+    //TODO FIX UPDATE BY CONFIG NAME - WHERE RECORD IS NOT FOUND
 
     public Request updateByConfigName(String name, Request request) {
+
         Configs c = configsRepository.findByName(name);
 
         c.setName(request.getName());

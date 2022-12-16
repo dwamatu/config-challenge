@@ -3,6 +3,7 @@ package com.ideabrain.configchallenge.services;
 import com.ideabrain.configchallenge.dtos.*;
 import com.ideabrain.configchallenge.entity.Configs;
 import com.ideabrain.configchallenge.repository.ConfigsRepository;
+import com.ideabrain.configchallenge.utils.Utilities;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
 public class ConfigsService {
 
     public final ConfigsRepository configsRepository;
+    public final Utilities utilities;
 
     public List<Request> fetchAllConfigs() {
 
@@ -23,34 +25,13 @@ public class ConfigsService {
 
             // Map Everything to Requests
             Request y = new Request();
-            return getRequest(x, y);
+            return utilities.mapConfigToRequest(x, y);
         }).collect(Collectors.toList());
 
 
         return requests;
     }
 
-    private Request getRequest(Configs x, Request y) {
-
-        y.setName(x.getName());
-        Metadata metadata = new Metadata();
-        Monitoring monitoring = new Monitoring();
-        Limits limits = new Limits();
-        Cpu cpu = new Cpu();
-
-
-        cpu.setEnabled(x.isCpuEnabled());
-        cpu.setValue(x.getCpuValue());
-        limits.setCpu(cpu);
-
-        monitoring.setEnabled(x.isMonitoringEnabled());
-
-        metadata.setLimits(limits);
-        metadata.setMonitoring(monitoring);
-
-        y.setMetadata(metadata);
-        return y;
-    }
 
     public Request createConfig(Request request) {
         Configs configs = new Configs();
@@ -67,11 +48,11 @@ public class ConfigsService {
     public Request fetchConfigByName(String name) {
         Configs c = configsRepository.findByName(name);
         Request request = new Request();
-        return getRequest(c, request);
+        return utilities.mapConfigToRequest(c, request);
     }
 
     public Configs deleteByConfigName(String name) {
-        return configsRepository.deleteByName(name);
+        return configsRepository.deleteByNameEquals(name);
     }
 
     public Configs updateByConfigName(String name, Configs configs) {

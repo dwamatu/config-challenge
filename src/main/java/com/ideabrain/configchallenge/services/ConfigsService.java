@@ -51,8 +51,8 @@ public class ConfigsService {
         return utilities.mapConfigToRequest(c, request);
     }
 
-    public Configs deleteByConfigName(String name) {
-        return configsRepository.deleteByNameEquals(name);
+    public void deleteByConfigName(String name) {
+        configsRepository.deleteByNameEquals(name);
     }
 
     public Configs updateByConfigName(String name, Configs configs) {

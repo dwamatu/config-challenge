@@ -38,8 +38,8 @@ public class ConfigsController {
     }
 
     @DeleteMapping("/configs/{name}")
-    public Configs deleteByConfigName(@PathVariable String name) {
-        return configsService.deleteByConfigName(name);
+    public void deleteByConfigName(@PathVariable String name) {
+        configsService.deleteByConfigName(name);
     }
 
 }

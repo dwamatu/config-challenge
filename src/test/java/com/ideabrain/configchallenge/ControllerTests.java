@@ -41,6 +41,7 @@ public class ControllerTests {
     public void testGetNoConfigs() throws Exception {
         mockMvc.perform(get("/configs"))
                 .andExpect(status().isOk());
+
     }
 
     @Test
@@ -75,6 +76,21 @@ public class ControllerTests {
 
     }
 
+    @Test
+    public void getConfigByName() throws Exception {
 
+        Request request = objectMapper.readValue(requestString, Request.class);
+        requestsList.add(request);
+
+
+        when(configsService.fetchConfigByName("datacenter-1")).thenReturn(request);
+        mockMvc.perform(get("/configs/datacenter-1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name").value("datacenter-1"))
+                .andExpect(jsonPath("$.metadata.monitoring.enabled").value("true"))
+                .andExpect(jsonPath("$.metadata.limits.cpu.enabled").value("false"))
+                .andExpect(jsonPath("$.metadata.limits.cpu.value").value("700m"));
+
+    }
 
 }

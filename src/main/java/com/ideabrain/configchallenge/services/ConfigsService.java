@@ -63,16 +63,21 @@ public class ConfigsService {
 
     public Request updateByConfigName(String name, Request request) {
 
+
         Configs c = configsRepository.findByName(name);
 
-        c.setName(request.getName());
-        c.setMonitoringEnabled(request.getMetadata().getMonitoring().isEnabled());
-        c.setCpuEnabled(request.getMetadata().getLimits().getCpu().isEnabled());
-        c.setCpuValue(request.getMetadata().getLimits().getCpu().getValue());
-        // Save
-        configsRepository.save(c);
+        if (c.getId() != null) {
+            c.setName(request.getName());
+            c.setMonitoringEnabled(request.getMetadata().getMonitoring().isEnabled());
+            c.setCpuEnabled(request.getMetadata().getLimits().getCpu().isEnabled());
+            c.setCpuValue(request.getMetadata().getLimits().getCpu().getValue());
+            // Save
+            configsRepository.save(c);
+            return request;
+        } else {
+            return null;
+        }
 
-        return request;
     }
 
     public List<Request> performAdvancedQuery(Map<String, String> queryParams) {

@@ -7,6 +7,7 @@ import com.ideabrain.configchallenge.utils.Utilities;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -74,7 +75,24 @@ public class ConfigsService {
         return request;
     }
 
-    public Request performAdvancedQuery(Map<String, String> queryParams) {
-        return null;
+    public List<Request> performAdvancedQuery(Map<String, String> queryParams) {
+
+        List<Configs> configsList = null;
+
+        if (queryParams.containsKey("metadata.monitoring.enabled")) {
+            configsList = configsRepository.findAllByMonitoringEnabled(Boolean.parseBoolean(queryParams.get("metadata.monitoring.enabled").trim()));
+        }
+        if (queryParams.containsKey("metadata.limits.cpu.enabled"))
+            configsList = configsRepository.findAllByCpuEnabled(Boolean.parseBoolean(queryParams.get("metadata.limits.cpu.enabled").trim()));
+        if ((queryParams.containsKey("metadata.limits.cpu.value")))
+            configsList = configsRepository.findAllByCpuValueEquals(queryParams.get("metadata.limits.cpu.value").trim());
+
+        return configsList.stream().map(x -> {
+            // Map Everything to Requests
+            Request y = new Request();
+            return utilities.mapConfigToRequest(x, y);
+        }).collect(Collectors.toList());
+
+
     }
 }

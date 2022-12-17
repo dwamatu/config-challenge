@@ -45,10 +45,8 @@ public class ConfigsController {
 
     //TODO Add Implementation for Query Data
     @GetMapping("/search")
-    public Request queryParamImplemenation(@RequestParam(required = false) Map<String, String> queryParams) {
-
+    public List<Request> queryParamImplemenation(@RequestParam Map<String, String> queryParams) {
         return configsService.performAdvancedQuery(queryParams);
-
     }
 
 }

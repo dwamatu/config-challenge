@@ -12,9 +12,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static com.ideabrain.configchallenge.utils.Constants.*;
+
 @Service
 @AllArgsConstructor
 public class ConfigsService {
+
 
     public final ConfigsRepository configsRepository;
     public final Utilities utilities;
@@ -46,8 +49,6 @@ public class ConfigsService {
         return request;
     }
 
-    //TODO FIX UPDATE BY CONFIG NAME - WHERE RECORD IS NOT FOUND
-
 
     public Request fetchConfigByName(String name) {
         Configs c = configsRepository.findByName(name);
@@ -56,7 +57,11 @@ public class ConfigsService {
     }
 
     public void deleteByConfigName(String name) {
-        configsRepository.deleteByNameEquals(name);
+
+        Configs c = configsRepository.findByName(name);
+        if (c != null) {
+            configsRepository.deleteByNameEquals(name);
+        }
     }
 
     //TODO FIX UPDATE BY CONFIG NAME - WHERE RECORD IS NOT FOUND
@@ -84,13 +89,13 @@ public class ConfigsService {
 
         List<Configs> configsList = new ArrayList<>();
 
-        if (queryParams.containsKey("metadata.monitoring.enabled")) {
-            configsList = configsRepository.findAllByMonitoringEnabled(Boolean.parseBoolean(queryParams.get("metadata.monitoring.enabled").trim()));
+        if (queryParams.containsKey(METADATA_MONITORING_ENABLED)) {
+            configsList = configsRepository.findAllByMonitoringEnabled(Boolean.parseBoolean(queryParams.get(METADATA_MONITORING_ENABLED).trim()));
         }
-        if (queryParams.containsKey("metadata.limits.cpu.enabled"))
-            configsList = configsRepository.findAllByCpuEnabled(Boolean.parseBoolean(queryParams.get("metadata.limits.cpu.enabled").trim()));
-        if ((queryParams.containsKey("metadata.limits.cpu.value")))
-            configsList = configsRepository.findAllByCpuValueEquals(queryParams.get("metadata.limits.cpu.value").trim());
+        if (queryParams.containsKey(METADATA_LIMITS_CPU_ENABLED))
+            configsList = configsRepository.findAllByCpuEnabled(Boolean.parseBoolean(queryParams.get(METADATA_LIMITS_CPU_ENABLED).trim()));
+        if ((queryParams.containsKey(METADATA_LIMITS_CPU_VALUE)))
+            configsList = configsRepository.findAllByCpuValueEquals(queryParams.get(METADATA_LIMITS_CPU_VALUE).trim());
 
         if (!configsList.isEmpty()) {
 

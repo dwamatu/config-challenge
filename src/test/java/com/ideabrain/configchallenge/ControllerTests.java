@@ -1,6 +1,5 @@
 package com.ideabrain.configchallenge;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ideabrain.configchallenge.dtos.Request;
 import com.ideabrain.configchallenge.services.ConfigsService;
@@ -9,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
@@ -66,7 +66,7 @@ public class ControllerTests {
         Request request = objectMapper.readValue(requestString, Request.class);
 
         when(configsService.createConfig(request)).thenReturn(request);
-        mockMvc.perform(post("/configs").contentType("application/json")
+        mockMvc.perform(post("/configs").contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value("datacenter-1"))
@@ -91,6 +91,13 @@ public class ControllerTests {
                 .andExpect(jsonPath("$.metadata.limits.cpu.enabled").value("false"))
                 .andExpect(jsonPath("$.metadata.limits.cpu.value").value("700m"));
 
+    }
+
+
+    @Test
+    public void getConfigByNameWithNoRecord() throws Exception {
+        mockMvc.perform(get("/configs/datacenter-1"))
+                .andExpect(status().isOk());
     }
 
 }

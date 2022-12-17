@@ -100,7 +100,6 @@ public class ControllerTests {
                 .andExpect(status().isOk());
     }
 
-    // TODO: 17/12/2022 Fix No Query Params Test
     @Test
     public void fetchConfigsByNOQueryParams() throws Exception {
         mockMvc.perform(get("/search"))

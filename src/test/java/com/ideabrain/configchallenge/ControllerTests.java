@@ -15,8 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -110,5 +109,22 @@ public class ControllerTests {
     public void fetchConfigsByQueryParams() throws Exception {
         mockMvc.perform(get("/search?metadata.monitoring.enable=true"))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    public void updateConfigByName() throws Exception {
+
+        Request request = objectMapper.readValue(requestString, Request.class);
+
+        request.setName("datacenter-2");
+
+        when(configsService.fetchConfigByName("datacenter-1")).thenReturn(request);
+        mockMvc.perform(put("/configs/datacenter-1").content(objectMapper.writeValueAsString(request)));
+    }
+
+    @Test
+    public void deleteConfigByName() throws Exception {
+
+        mockMvc.perform(delete("/configs/datacenter-1")).andExpect(status().isOk());
     }
 }

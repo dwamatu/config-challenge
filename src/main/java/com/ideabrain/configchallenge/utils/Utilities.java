@@ -1,6 +1,10 @@
 package com.ideabrain.configchallenge.utils;
 
 import com.ideabrain.configchallenge.dtos.*;
+import com.ideabrain.configchallenge.dtos.subdtos.Cpu;
+import com.ideabrain.configchallenge.dtos.subdtos.Limits;
+import com.ideabrain.configchallenge.dtos.subdtos.Metadata;
+import com.ideabrain.configchallenge.dtos.subdtos.Monitoring;
 import com.ideabrain.configchallenge.entity.Configs;
 import org.springframework.stereotype.Component;
 

@@ -1,4 +1,4 @@
-package com.ideabrain.configchallenge.dtos;
+package com.ideabrain.configchallenge.dtos.subdtos;
 
 import lombok.Data;
 

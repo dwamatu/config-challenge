@@ -77,7 +77,7 @@ public class ConfigsService {
 
     public List<Request> performAdvancedQuery(Map<String, String> queryParams) {
 
-        List<Configs> configsList = null;
+        List<Configs> configsList = new ArrayList<>();
 
         if (queryParams.containsKey("metadata.monitoring.enabled")) {
             configsList = configsRepository.findAllByMonitoringEnabled(Boolean.parseBoolean(queryParams.get("metadata.monitoring.enabled").trim()));
@@ -87,11 +87,16 @@ public class ConfigsService {
         if ((queryParams.containsKey("metadata.limits.cpu.value")))
             configsList = configsRepository.findAllByCpuValueEquals(queryParams.get("metadata.limits.cpu.value").trim());
 
-        return configsList.stream().map(x -> {
-            // Map Everything to Requests
-            Request y = new Request();
-            return utilities.mapConfigToRequest(x, y);
-        }).collect(Collectors.toList());
+        if (!configsList.isEmpty()) {
+
+            return configsList.stream().map(x -> {
+                // Map Everything to Requests
+                Request y = new Request();
+                return utilities.mapConfigToRequest(x, y);
+            }).collect(Collectors.toList());
+        } else {
+            return new ArrayList<>();
+        }
 
 
     }

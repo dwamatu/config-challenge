@@ -43,7 +43,6 @@ public class ConfigsController {
         configsService.deleteByConfigName(name);
     }
 
-    //TODO Add Implementation for Query Data
     @GetMapping("/search")
     public List<Request> queryParamImplemenation(@RequestParam Map<String, String> queryParams) {
         return configsService.performAdvancedQuery(queryParams);

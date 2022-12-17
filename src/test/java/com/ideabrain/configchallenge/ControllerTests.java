@@ -115,10 +115,8 @@ public class ControllerTests {
     public void updateConfigByName() throws Exception {
 
         Request request = objectMapper.readValue(requestString, Request.class);
-
         request.setName("datacenter-2");
 
-        when(configsService.fetchConfigByName("datacenter-1")).thenReturn(request);
         mockMvc.perform(put("/configs/datacenter-1").content(objectMapper.writeValueAsString(request)));
     }
 

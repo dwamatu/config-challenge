@@ -38,10 +38,8 @@ public class ConfigsService {
 
     public Request createConfig(Request request) {
         Configs configs = new Configs();
-        configs.setName(request.getName());
-        configs.setMonitoringEnabled(request.getMetadata().getMonitoring().isEnabled());
-        configs.setCpuEnabled(request.getMetadata().getLimits().getCpu().isEnabled());
-        configs.setCpuValue(request.getMetadata().getLimits().getCpu().getValue());
+
+        utilities.getRequest(request, configs);
         // Save
         configsRepository.save(configs);
         // Return Saved Request
@@ -71,11 +69,7 @@ public class ConfigsService {
         Configs c = configsRepository.findByName(name);
 
         if (c.getId() != null) {
-            c.setName(request.getName());
-            c.setMonitoringEnabled(request.getMetadata().getMonitoring().isEnabled());
-            c.setCpuEnabled(request.getMetadata().getLimits().getCpu().isEnabled());
-            c.setCpuValue(request.getMetadata().getLimits().getCpu().getValue());
-            // Save
+            utilities.getRequest(request, c);
             configsRepository.save(c);
             return request;
         } else {
@@ -83,6 +77,7 @@ public class ConfigsService {
         }
 
     }
+
 
     public List<Request> performAdvancedQuery(Map<String, String> queryParams) {
 

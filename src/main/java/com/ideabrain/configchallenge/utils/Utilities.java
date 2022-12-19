@@ -32,4 +32,14 @@ public class Utilities {
         y.setMetadata(metadata);
         return y;
     }
+
+    public Configs getRequest(Request request, Configs c) {
+        c.setName(request.getName());
+        c.setMonitoringEnabled(request.getMetadata().getMonitoring().isEnabled());
+        c.setCpuEnabled(request.getMetadata().getLimits().getCpu().isEnabled());
+        c.setCpuValue(request.getMetadata().getLimits().getCpu().getValue());
+        // Save
+        return  c;
+
+    }
 }

@@ -44,7 +44,7 @@ public class ControllerTests {
     }
 
     @Test
-    public void testGetListInsertConfigs() throws Exception {
+    public void testGetListConfigs() throws Exception {
 
         Request request = objectMapper.readValue(requestString, Request.class);
         requestsList.add(request);

@@ -43,7 +43,7 @@ public class ConfigsController {
     }
 
     @GetMapping("/search")
-    public List<Request> queryParamImplemenation(@RequestParam Map<String, String> queryParams) {
+    public List<Request> queryParamImplementation(@RequestParam Map<String, String> queryParams) {
         return configsService.performAdvancedQuery(queryParams);
     }
 

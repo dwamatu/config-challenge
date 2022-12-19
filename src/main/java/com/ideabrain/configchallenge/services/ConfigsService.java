@@ -27,7 +27,6 @@ public class ConfigsService {
         List<Configs> configs = configsRepository.findAll();
         // Set Parameters on the fly.
         List<Request> requests = configs.stream().map(x -> {
-
             // Map Everything to Requests
             Request y = new Request();
             return utilities.mapConfigToRequest(x, y);
@@ -92,10 +91,12 @@ public class ConfigsService {
         if (queryParams.containsKey(METADATA_MONITORING_ENABLED)) {
             configsList = configsRepository.findAllByMonitoringEnabled(Boolean.parseBoolean(queryParams.get(METADATA_MONITORING_ENABLED).trim()));
         }
-        if (queryParams.containsKey(METADATA_LIMITS_CPU_ENABLED))
+        if (queryParams.containsKey(METADATA_LIMITS_CPU_ENABLED)) {
             configsList = configsRepository.findAllByCpuEnabled(Boolean.parseBoolean(queryParams.get(METADATA_LIMITS_CPU_ENABLED).trim()));
-        if ((queryParams.containsKey(METADATA_LIMITS_CPU_VALUE)))
+        }
+        if ((queryParams.containsKey(METADATA_LIMITS_CPU_VALUE))) {
             configsList = configsRepository.findAllByCpuValueEquals(queryParams.get(METADATA_LIMITS_CPU_VALUE).trim());
+        }
 
         if (!configsList.isEmpty()) {
 

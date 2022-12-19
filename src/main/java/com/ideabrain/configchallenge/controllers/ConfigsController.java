@@ -1,7 +1,6 @@
 package com.ideabrain.configchallenge.controllers;
 
 import com.ideabrain.configchallenge.dtos.Request;
-import com.ideabrain.configchallenge.entity.Configs;
 import com.ideabrain.configchallenge.services.ConfigsService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;

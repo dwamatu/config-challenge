@@ -1,0 +1,26 @@
+name: Deploy to DigitalOcean
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install DigitalOcean and Helm actions
+      uses: digitalocean/action-install-doctl@v1
+      uses: helm/install-helm-2@v1
+    - name: Authenticate with DigitalOcean
+      uses: digitalocean/action-authenticate@v1
+      with:
+        token: ${{ secrets.DIGITALOCEAN_TOKEN }}
+    - name: Install Helm chart
+      uses: helm/helm-2-upgrade@v1
+      with:
+        chart: my-chart
+        name: my-release
+        namespace: default

@@ -17,6 +17,6 @@ jobs:
         password: ${{ secrets.DOCKERHUB_TOKEN }}
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag config-challenge:v1.0.0-${GITHUB_SHA::6}-amd64
+      run: docker build . --file Dockerfile --tag dwamatu/config-challenge:v1.0.0-${GITHUB_SHA::6}-amd64
     - name: Docker Push
-      run: docker push  config-challenge:v1.0.0-${GITHUB_SHA::6}-amd64
+      run: docker push  dwamatu/config-challenge:v1.0.0-${GITHUB_SHA::6}-amd64

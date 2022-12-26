@@ -16,7 +16,7 @@ jobs:
     - name: Authenticate with DigitalOcean
       uses: digitalocean/action-authenticate@v1
       with:
-        token: ${{ secrets.DIGITALOCEAN_TOKEN }}
+        token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
     - name: Install Helm chart
       uses: helm/helm-2-upgrade@v1
       with:
